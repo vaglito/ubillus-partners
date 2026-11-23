@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, Check } from "lucide-react";
+import { ArrowLeft, Check, MessageSquareText, UserRound } from "lucide-react";
 import Link from "next/link";
 import { type FormEvent, useState } from "react";
 import { FormField } from "@/components/form-field";
@@ -39,6 +39,9 @@ export default function EvaluateCasePage() {
             <ArrowLeft size={17} /> Volver al inicio
           </Link>
           <div className="form-heading">
+            <span aria-hidden="true" className="form-heading-icon">
+              <MessageSquareText />
+            </span>
             <h1>Evalúa tu caso</h1>
             <p>
               Cuéntanos cómo podemos ayudarte. Revisaremos la información y nos
@@ -66,7 +69,10 @@ export default function EvaluateCasePage() {
           ) : (
             <form className="form-card" onSubmit={handleSubmit}>
               <div className="form-section-head">
-                <h2>Cuéntanos sobre ti</h2>
+                <h2>
+                  <UserRound aria-hidden="true" />
+                  Cuéntanos sobre ti
+                </h2>
                 <p>Todos los campos son obligatorios.</p>
               </div>
               <FieldGroup className="field-grid">

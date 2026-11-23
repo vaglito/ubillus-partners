@@ -1,6 +1,16 @@
 "use client";
 
-import { ArrowLeft, Check, Download } from "lucide-react";
+import {
+  ArrowLeft,
+  BookOpenText,
+  BriefcaseBusiness,
+  Building2,
+  Check,
+  ClipboardList,
+  Download,
+  FileText,
+  UserRound,
+} from "lucide-react";
 import Link from "next/link";
 import { type ChangeEvent, type FormEvent, useEffect, useState } from "react";
 import { FormField } from "@/components/form-field";
@@ -203,6 +213,9 @@ export default function ComplaintsPage() {
             <ArrowLeft size={17} /> Volver al inicio
           </Link>
           <div className="form-heading">
+            <span aria-hidden="true" className="form-heading-icon">
+              <BookOpenText />
+            </span>
             <h1>Libro de Reclamaciones</h1>
             <p>
               Registra aquí tu queja o reclamo sobre nuestros servicios.
@@ -261,7 +274,10 @@ export default function ComplaintsPage() {
             <form className="form-card complaint-form" onSubmit={handleSubmit}>
               <section className="complaint-block">
                 <div className="form-section-head">
-                  <h2>Datos del establecimiento</h2>
+                  <h2>
+                    <Building2 aria-hidden="true" />
+                    Datos del establecimiento
+                  </h2>
                 </div>
                 <div className="establishment-grid">
                   <div>
@@ -287,7 +303,10 @@ export default function ComplaintsPage() {
               </section>
               <section className="complaint-block">
                 <div className="form-section-head">
-                  <h2>1. Tipo de registro</h2>
+                  <h2>
+                    <ClipboardList aria-hidden="true" />
+                    1. Tipo de registro
+                  </h2>
                 </div>
                 <FieldSet>
                   <FieldLegend className="sr-only">
@@ -319,7 +338,10 @@ export default function ComplaintsPage() {
               </section>
               <section className="complaint-block">
                 <div className="form-section-head">
-                  <h2>2. Identificación del consumidor</h2>
+                  <h2>
+                    <UserRound aria-hidden="true" />
+                    2. Identificación del consumidor
+                  </h2>
                   <p>Todos los campos son obligatorios.</p>
                 </div>
                 <FieldGroup className="field-grid">
@@ -438,7 +460,10 @@ export default function ComplaintsPage() {
               </section>
               <section className="complaint-block">
                 <div className="form-section-head">
-                  <h2>3. Identificación del servicio contratado</h2>
+                  <h2>
+                    <BriefcaseBusiness aria-hidden="true" />
+                    3. Identificación del servicio contratado
+                  </h2>
                 </div>
                 <FieldGroup className="field-grid">
                   <FormField id="case-number" label="Número de caso">
@@ -489,6 +514,7 @@ export default function ComplaintsPage() {
               <section className="complaint-block">
                 <div className="form-section-head">
                   <h2>
+                    <FileText aria-hidden="true" />
                     4. Detalle de la queja o reclamo y pedido del consumidor
                   </h2>
                 </div>

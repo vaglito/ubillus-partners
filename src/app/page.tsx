@@ -1,24 +1,38 @@
-import { ArrowUpRight, Check } from "lucide-react";
+import {
+  ArrowUpRight,
+  Check,
+  Compass,
+  ListChecks,
+  MessageSquareText,
+  ShieldCheck,
+  Target,
+  UsersRound,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const reasons = [
   {
     title: "Atención personalizada",
     text: "Escuchamos tu situación y te acompañamos desde la primera consulta.",
+    icon: MessageSquareText,
   },
   {
     title: "Equipo especializado",
     text: "Profesionales con experiencia en distintas áreas del derecho.",
+    icon: UsersRound,
   },
   {
     title: "Enfoque en resultados",
     text: "Cada estrategia parte de tus objetivos y de un análisis cuidadoso del caso.",
+    icon: Target,
   },
   {
     title: "Transparencia y seguimiento",
     text: "Conoces los avances, las alternativas y los siguientes pasos.",
+    icon: ListChecks,
   },
 ];
 
@@ -89,8 +103,8 @@ export default function Home() {
           </div>
         </section>
         <section className="reasons section-light">
-          <div className="container">
-            <div className="section-heading">
+          <div className="container reasons-layout">
+            <div className="section-heading" data-content-reveal="">
               <h2>Asesoría jurídica personalizada, enfocada en resultados</h2>
               <p>
                 En el Estudio Jurídico Ubillus &amp; Partners trabajamos cada
@@ -98,46 +112,76 @@ export default function Home() {
                 compromiso es ayudarte a avanzar con claridad.
               </p>
             </div>
-            <div className="reason-grid">
+            <div className="reason-grid" data-content-reveal="">
               {reasons.map((reason) => (
-                <article className="reason-item" key={reason.title}>
-                  <h3>{reason.title}</h3>
-                  <p>{reason.text}</p>
-                </article>
+                <Card className="reason-item" key={reason.title}>
+                  <CardHeader>
+                    <div aria-hidden="true" className="reason-icon">
+                      <reason.icon />
+                    </div>
+                    <CardTitle>
+                      <h3>{reason.title}</h3>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p>{reason.text}</p>
+                  </CardContent>
+                </Card>
               ))}
             </div>
-            <div className="center-action">
+            <div className="center-action" data-content-reveal="">
               <Link className="button button--primary" href="/evalua-tu-caso">
                 Evalúa tu caso <ArrowUpRight aria-hidden="true" size={18} />
               </Link>
             </div>
           </div>
         </section>
-        <section className="about" id="nosotros">
-          <div className="container about-inner">
+        <section aria-labelledby="about-title" className="about" id="nosotros">
+          <div className="container about-inner" data-content-reveal="">
             <div className="about-intro">
-              <h2>Una relación de confianza para defender tus intereses.</h2>
+              <h2 id="about-title">
+                Una relación de <span>confianza</span> para defender tus
+                intereses.
+              </h2>
             </div>
-            <article className="about-card about-card--mission">
-              <h3>Misión</h3>
-              <p>
-                Brindar asesoría y representación jurídica con compromiso,
-                excelencia y transparencia, defendiendo los derechos y el
-                patrimonio de quienes confían en nosotros.
-              </p>
-            </article>
-            <article className="about-card about-card--vision">
-              <h3>Visión</h3>
-              <p>
-                Ser un estudio jurídico referente por la calidad de nuestro
-                servicio, la confianza de nuestros clientes y nuestro aporte a
-                una sociedad más justa.
-              </p>
-            </article>
+            <Card className="about-card about-card--mission">
+              <CardHeader>
+                <div aria-hidden="true" className="about-icon">
+                  <ShieldCheck />
+                </div>
+                <CardTitle>
+                  <h3>Misión</h3>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>
+                  Brindar asesoría y representación jurídica con compromiso,
+                  excelencia y transparencia, defendiendo los derechos y el
+                  patrimonio de quienes confían en nosotros.
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="about-card about-card--vision">
+              <CardHeader>
+                <div aria-hidden="true" className="about-icon">
+                  <Compass />
+                </div>
+                <CardTitle>
+                  <h3>Visión</h3>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>
+                  Ser un estudio jurídico referente por la calidad de nuestro
+                  servicio, la confianza de nuestros clientes y nuestro aporte a
+                  una sociedad más justa.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </section>
         <section aria-labelledby="closing-title" className="closing-cta">
-          <div className="container closing-inner">
+          <div className="container closing-inner" data-content-reveal="">
             <div>
               <h2 id="closing-title">
                 Cada caso empieza con una conversación clara.

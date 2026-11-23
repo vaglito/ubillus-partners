@@ -1,5 +1,7 @@
+import { BookOpenText, Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { ContentMotion } from "@/components/content-motion";
 import { SiteNavigation } from "@/components/site-navigation";
 
 export function Brand({ compact = false }: { compact?: boolean }) {
@@ -39,7 +41,8 @@ export function SiteHeader({
 export function SiteFooter() {
   return (
     <footer className="site-footer">
-      <div className="container footer-grid">
+      <ContentMotion />
+      <div className="container footer-grid" data-content-reveal="">
         <div className="footer-brand">
           <Brand compact />
           <p>
@@ -64,18 +67,29 @@ export function SiteFooter() {
         <div>
           <h2>Contacto</h2>
           <ul>
-            <li>
-              Av. Circunvalación del Golf Los Incas 206, Torre 3, Oficina 806 B,
-              Santiago de Surco, Lima
+            <li className="footer-contact-item">
+              <MapPin aria-hidden="true" />
+              <span>
+                Av. Circunvalación del Golf Los Incas 206, Torre 3, Oficina 806
+                B, Santiago de Surco, Lima
+              </span>
             </li>
             <li>
-              <a href="https://wa.me/51906532532">
-                Teléfono / WhatsApp: 906 532 532
+              <a
+                className="footer-contact-item footer-contact-link"
+                href="https://wa.me/51906532532"
+              >
+                <Phone aria-hidden="true" />
+                <span>Teléfono / WhatsApp: 906 532 532</span>
               </a>
             </li>
             <li>
-              <a href="mailto:administracion@ubilluspartners.com">
-                administracion@ubilluspartners.com
+              <a
+                className="footer-contact-item footer-contact-link"
+                href="mailto:administracion@ubilluspartners.com"
+              >
+                <Mail aria-hidden="true" />
+                <span>administracion@ubilluspartners.com</span>
               </a>
             </li>
           </ul>
@@ -88,7 +102,8 @@ export function SiteFooter() {
                 className="footer-complaints"
                 href="/libro-de-reclamaciones"
               >
-                Libro de Reclamaciones
+                <BookOpenText aria-hidden="true" />
+                <span>Libro de Reclamaciones</span>
               </Link>
             </li>
           </ul>
