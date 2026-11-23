@@ -1,10 +1,7 @@
 import { ArrowUpRight, Check } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
-import {
-  BalanceIllustration,
-  SiteFooter,
-  SiteHeader,
-} from "@/components/site-chrome";
+import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 
 const reasons = [
   {
@@ -46,34 +43,49 @@ export default function Home() {
                 Desde la primera conversación, tendrás un equipo comprometido
                 con entender tu caso y explicarte tus alternativas.
               </p>
-              <ul className="hero-points">
-                <li>
-                  <span>
-                    <Check size={15} strokeWidth={3} />
-                  </span>
-                  Atención personalizada desde la primera consulta
-                </li>
-                <li>
-                  <span>
-                    <Check size={15} strokeWidth={3} />
-                  </span>
-                  Estrategia jurídica clara y transparente
-                </li>
-                <li>
-                  <span>
-                    <Check size={15} strokeWidth={3} />
-                  </span>
-                  Seguimiento permanente de tu caso
-                </li>
-              </ul>
-              <Link className="button button--accent" href="/evalua-tu-caso">
-                Evalúa tu caso <ArrowUpRight aria-hidden="true" size={18} />
-              </Link>
+              <div className="hero-actions">
+                <Link className="button button--accent" href="/evalua-tu-caso">
+                  Evalúa tu caso <ArrowUpRight aria-hidden="true" size={18} />
+                </Link>
+                <a className="hero-whatsapp" href="https://wa.me/51906532532">
+                  Habla por WhatsApp
+                </a>
+              </div>
             </div>
-            <div className="hero-art">
-              <div className="hero-art-glow" />
-              <BalanceIllustration />
+            <div aria-hidden="true" className="hero-art">
+              <div className="hero-seal-frame">
+                <Image
+                  alt=""
+                  className="hero-seal"
+                  height={500}
+                  loading="eager"
+                  src="/logo%20ubillus%20partners%20blanco/UBILLUS-PARTNERS-SELLO-BLANCO.svg"
+                  width={500}
+                />
+              </div>
             </div>
+          </div>
+          <div className="hero-proof">
+            <ul className="container hero-points">
+              <li>
+                <span aria-hidden="true">
+                  <Check size={15} strokeWidth={3} />
+                </span>
+                Atención personalizada desde la primera consulta
+              </li>
+              <li>
+                <span aria-hidden="true">
+                  <Check size={15} strokeWidth={3} />
+                </span>
+                Estrategia jurídica clara y transparente
+              </li>
+              <li>
+                <span aria-hidden="true">
+                  <Check size={15} strokeWidth={3} />
+                </span>
+                Seguimiento permanente de tu caso
+              </li>
+            </ul>
           </div>
         </section>
         <section className="reasons section-light">
@@ -87,11 +99,8 @@ export default function Home() {
               </p>
             </div>
             <div className="reason-grid">
-              {reasons.map((reason, index) => (
+              {reasons.map((reason) => (
                 <article className="reason-item" key={reason.title}>
-                  <span aria-hidden="true" className="reason-mark">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
                   <h3>{reason.title}</h3>
                   <p>{reason.text}</p>
                 </article>
@@ -107,7 +116,6 @@ export default function Home() {
         <section className="about" id="nosotros">
           <div className="container about-inner">
             <div className="about-intro">
-              <p className="eyebrow">Estudio Jurídico Ubillus &amp; Partners</p>
               <h2>Una relación de confianza para defender tus intereses.</h2>
             </div>
             <article className="about-card about-card--mission">
@@ -126,6 +134,28 @@ export default function Home() {
                 una sociedad más justa.
               </p>
             </article>
+          </div>
+        </section>
+        <section aria-labelledby="closing-title" className="closing-cta">
+          <div className="container closing-inner">
+            <div>
+              <h2 id="closing-title">
+                Cada caso empieza con una conversación clara.
+              </h2>
+              <p>
+                Cuéntanos qué necesitas y conversemos sobre el siguiente paso.
+              </p>
+            </div>
+            <div className="closing-actions">
+              <a
+                className="button button--primary"
+                href="https://wa.me/51906532532"
+              >
+                Escribir por WhatsApp{" "}
+                <ArrowUpRight aria-hidden="true" size={18} />
+              </a>
+              <Link href="/evalua-tu-caso">Evalúa tu caso</Link>
+            </div>
           </div>
         </section>
       </main>

@@ -196,7 +196,7 @@ export default function ComplaintsPage() {
 
   return (
     <>
-      <SiteHeader />
+      <SiteHeader active="none" />
       <main className="form-page">
         <div className="container form-container complaint-container">
           <Link className="back-link" href="/">
