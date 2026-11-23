@@ -1,6 +1,29 @@
 @import "tailwindcss";
 
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+}
+
 :root {
+  --background: #fff;
+  --foreground: #0b2b40;
+  --primary: #004169;
+  --primary-foreground: #fff;
+  --muted: #eff1f5;
+  --muted-foreground: #606e77;
+  --input: #7b89a5;
+  --ring: #73bdb8;
+  --destructive: #aa352f;
+  --border: #d5dcea;
   --navy: #004169;
   --deep: #0b2b40;
   --aqua: #73bdb8;
@@ -574,6 +597,14 @@ svg {
   min-height: 126px;
   resize: vertical;
 }
+.field [data-slot="native-select-wrapper"] {
+  width: 100%;
+}
+.field [data-slot="field-description"] {
+  color: #566873;
+  font-size: 12px;
+  line-height: 1.5;
+}
 .field input[type="file"] {
   height: auto;
   padding: 9px 10px;
@@ -614,12 +645,12 @@ svg {
   font-size: 14px;
   line-height: 1.5;
 }
-.check-row input {
+.check-row [data-slot="checkbox"] {
   width: 19px;
   height: 19px;
   flex: 0 0 auto;
   margin: 1px 0 0;
-  accent-color: var(--navy);
+  border-color: var(--field-line);
 }
 .form-card > .check-row {
   margin-top: 22px;
@@ -715,6 +746,7 @@ svg {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
+  width: 100%;
   min-width: 0;
   margin: 0;
   padding: 0;
@@ -722,6 +754,8 @@ svg {
 }
 .record-option {
   display: flex;
+  width: 100%;
+  min-width: 0;
   min-height: 104px;
   flex-direction: column;
   align-items: flex-start;
@@ -734,6 +768,7 @@ svg {
   color: #23495f;
   cursor: pointer;
   text-align: left;
+  white-space: normal;
   transition:
     background 140ms ease,
     color 140ms ease,
@@ -745,8 +780,10 @@ svg {
 .record-option span {
   font-size: 13px;
   line-height: 1.45;
+  overflow-wrap: anywhere;
 }
-.record-option.is-selected {
+.record-option[aria-pressed="true"],
+.record-option[data-pressed] {
   border-color: var(--navy);
   background: var(--navy);
   color: #fff;

@@ -3,7 +3,17 @@
 import { ArrowLeft, Check } from "lucide-react";
 import Link from "next/link";
 import { type FormEvent, useState } from "react";
+import { FormField } from "@/components/form-field";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from "@/components/ui/native-select";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function EvaluateCasePage() {
   const [sent, setSent] = useState(false);
@@ -59,25 +69,27 @@ export default function EvaluateCasePage() {
                 <h2>Cuéntanos sobre ti</h2>
                 <p>Todos los campos son obligatorios.</p>
               </div>
-              <div className="field-grid">
-                <label className="field">
-                  <span>
-                    Nombres y apellidos <b>*</b>
-                  </span>
-                  <input autoComplete="name" name="nombre" required />
-                </label>
-                <label className="field">
-                  <span>
-                    DNI / RUC <b>*</b>
-                  </span>
-                  <input autoComplete="off" name="documento" required />
-                </label>
-                <label className="field">
-                  <span>
-                    Teléfono / WhatsApp <b>*</b>
-                  </span>
-                  <input
+              <FieldGroup className="field-grid">
+                <FormField id="nombre" label="Nombres y apellidos" required>
+                  <Input
+                    autoComplete="name"
+                    id="nombre"
+                    name="nombre"
+                    required
+                  />
+                </FormField>
+                <FormField id="documento" label="DNI / RUC" required>
+                  <Input
+                    autoComplete="off"
+                    id="documento"
+                    name="documento"
+                    required
+                  />
+                </FormField>
+                <FormField id="telefono" label="Teléfono / WhatsApp" required>
+                  <Input
                     autoComplete="tel"
+                    id="telefono"
                     inputMode="tel"
                     name="telefono"
                     pattern="[+0-9 ()-]{7,18}"
@@ -85,56 +97,48 @@ export default function EvaluateCasePage() {
                     title="Ingresa un número de teléfono válido."
                     type="tel"
                   />
-                </label>
-                <label className="field">
-                  <span>
-                    Correo electrónico <b>*</b>
-                  </span>
-                  <input
+                </FormField>
+                <FormField id="correo" label="Correo electrónico" required>
+                  <Input
                     autoComplete="email"
+                    id="correo"
                     name="correo"
                     required
                     type="email"
                   />
-                </label>
-                <label className="field field--full">
-                  <span>
-                    Área de tu consulta <b>*</b>
-                  </span>
-                  <select defaultValue="" name="area" required>
-                    <option disabled value="">
+                </FormField>
+                <FormField id="area" label="Área de tu consulta" required full>
+                  <NativeSelect defaultValue="" id="area" name="area" required>
+                    <NativeSelectOption disabled value="">
                       Selecciona un área
-                    </option>
-                    <option>Civil</option>
-                    <option>Penal</option>
-                    <option>Laboral</option>
-                    <option>Familia</option>
-                    <option>Comercial y societario</option>
-                    <option>Otro</option>
-                  </select>
-                </label>
-                <label className="field field--full">
-                  <span>
-                    Cuéntanos tu caso <b>*</b>
-                  </span>
-                  <textarea name="caso" required rows={5} />
-                </label>
-              </div>
-              <label className="check-row">
-                <input name="datos" required type="checkbox" />
-                <span>
+                    </NativeSelectOption>
+                    {[
+                      "Civil",
+                      "Penal",
+                      "Laboral",
+                      "Familia",
+                      "Comercial y societario",
+                      "Otro",
+                    ].map((area) => (
+                      <NativeSelectOption key={area}>{area}</NativeSelectOption>
+                    ))}
+                  </NativeSelect>
+                </FormField>
+                <FormField id="caso" label="Cuéntanos tu caso" required full>
+                  <Textarea id="caso" name="caso" required rows={5} />
+                </FormField>
+              </FieldGroup>
+              <Field className="check-row" orientation="horizontal">
+                <Checkbox id="datos" name="datos" required />
+                <FieldLabel htmlFor="datos">
                   Acepto el tratamiento de mis datos personales para la atención
-                  de esta consulta. <b>*</b>
-                </span>
-              </label>
+                  de esta consulta. <b aria-hidden="true">*</b>
+                </FieldLabel>
+              </Field>
               <div className="form-actions">
-                <button
-                  className="button button--primary"
-                  disabled={sending}
-                  type="submit"
-                >
+                <Button disabled={sending} type="submit">
                   {sending ? "Enviando…" : "Enviar consulta"}
-                </button>
+                </Button>
                 <span className="required-hint">* Campos obligatorios</span>
               </div>
               <p className="prototype-disclaimer">

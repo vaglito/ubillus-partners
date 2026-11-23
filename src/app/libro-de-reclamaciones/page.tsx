@@ -3,7 +3,26 @@
 import { ArrowLeft, Check, Download } from "lucide-react";
 import Link from "next/link";
 import { type ChangeEvent, type FormEvent, useEffect, useState } from "react";
+import { FormField } from "@/components/form-field";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from "@/components/ui/native-select";
+import { Textarea } from "@/components/ui/textarea";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 type RecordType = "Reclamo" | "Queja";
 type ActingAs = "Titular (consumidor)" | "Representante legal" | "Otros";
@@ -214,8 +233,7 @@ export default function ComplaintsPage() {
                 Enviamos una copia de la constancia a tu correo.
               </p>
               {recordType === "Queja" && (
-                <button
-                  className="button button--primary"
+                <Button
                   onClick={() =>
                     downloadReceipt([
                       ...receiptLines.slice(0, 3),
@@ -225,8 +243,8 @@ export default function ComplaintsPage() {
                   }
                   type="button"
                 >
-                  <Download size={17} /> Descargar constancia
-                </button>
+                  <Download data-icon="inline-start" /> Descargar constancia
+                </Button>
               )}
               <Link
                 className="button button--secondary confirmation-home"
@@ -271,60 +289,75 @@ export default function ComplaintsPage() {
                 <div className="form-section-head">
                   <h2>1. Tipo de registro</h2>
                 </div>
-                <fieldset className="record-options">
-                  <legend className="sr-only">Tipo de registro</legend>
-                  {(["Reclamo", "Queja"] as const).map((type) => (
-                    <button
-                      aria-pressed={recordType === type}
-                      className={`record-option${recordType === type ? " is-selected" : ""}`}
-                      key={type}
-                      onClick={() => setRecordType(type)}
-                      type="button"
-                    >
-                      <strong>{type}</strong>
-                      <span>
-                        {type === "Reclamo"
-                          ? "Disconformidad relacionada con el servicio jurídico contratado"
-                          : "Disconformidad o malestar con la atención al público"}
-                      </span>
-                    </button>
-                  ))}
-                </fieldset>
+                <FieldSet>
+                  <FieldLegend className="sr-only">
+                    Tipo de registro
+                  </FieldLegend>
+                  <ToggleGroup
+                    className="record-options"
+                    value={[recordType]}
+                    onValueChange={(value) => {
+                      if (value[0]) setRecordType(value[0] as RecordType);
+                    }}
+                  >
+                    {(["Reclamo", "Queja"] as const).map((type) => (
+                      <ToggleGroupItem
+                        className="record-option"
+                        key={type}
+                        value={type}
+                      >
+                        <strong>{type}</strong>
+                        <span>
+                          {type === "Reclamo"
+                            ? "Disconformidad relacionada con el servicio jurídico contratado"
+                            : "Disconformidad o malestar con la atención al público"}
+                        </span>
+                      </ToggleGroupItem>
+                    ))}
+                  </ToggleGroup>
+                </FieldSet>
               </section>
               <section className="complaint-block">
                 <div className="form-section-head">
                   <h2>2. Identificación del consumidor</h2>
                   <p>Todos los campos son obligatorios.</p>
                 </div>
-                <div className="field-grid">
-                  <label className="field">
-                    <span>
-                      Nombres y apellidos <b>*</b>
-                    </span>
-                    <input autoComplete="name" name="consumer-name" required />
-                  </label>
-                  <label className="field">
-                    <span>
-                      DNI / CE / Pasaporte <b>*</b>
-                    </span>
-                    <input name="consumer-document" required />
-                  </label>
-                  <label className="field field--full">
-                    <span>
-                      Domicilio <b>*</b>
-                    </span>
-                    <input
+                <FieldGroup className="field-grid">
+                  <FormField
+                    id="consumer-name"
+                    label="Nombres y apellidos"
+                    required
+                  >
+                    <Input
+                      autoComplete="name"
+                      id="consumer-name"
+                      name="consumer-name"
+                      required
+                    />
+                  </FormField>
+                  <FormField
+                    id="consumer-document"
+                    label="DNI / CE / Pasaporte"
+                    required
+                  >
+                    <Input
+                      id="consumer-document"
+                      name="consumer-document"
+                      required
+                    />
+                  </FormField>
+                  <FormField id="address" label="Domicilio" required full>
+                    <Input
                       autoComplete="street-address"
+                      id="address"
                       name="address"
                       required
                     />
-                  </label>
-                  <label className="field">
-                    <span>
-                      Teléfono <b>*</b>
-                    </span>
-                    <input
+                  </FormField>
+                  <FormField id="phone" label="Teléfono" required>
+                    <Input
                       autoComplete="tel"
+                      id="phone"
                       inputMode="tel"
                       name="phone"
                       pattern="[+0-9 ()-]{7,18}"
@@ -332,101 +365,126 @@ export default function ComplaintsPage() {
                       title="Ingresa un número de teléfono válido."
                       type="tel"
                     />
-                  </label>
-                  <label className="field">
-                    <span>
-                      Correo electrónico <b>*</b>
-                    </span>
-                    <input
+                  </FormField>
+                  <FormField id="email" label="Correo electrónico" required>
+                    <Input
                       autoComplete="email"
+                      id="email"
                       name="email"
                       required
                       type="email"
                     />
-                  </label>
-                  <label className="field field--full">
-                    <span>
-                      Presentas este registro como <b>*</b>
-                    </span>
-                    <select
+                  </FormField>
+                  <FormField
+                    id="acting-as"
+                    label="Presentas este registro como"
+                    required
+                    full
+                  >
+                    <NativeSelect
+                      id="acting-as"
                       onChange={(event) =>
                         setActingAs(event.target.value as ActingAs)
                       }
                       required
                       value={actingAs}
                     >
-                      <option>Titular (consumidor)</option>
-                      <option>Representante legal</option>
-                      <option>Otros</option>
-                    </select>
-                  </label>
+                      <NativeSelectOption>
+                        Titular (consumidor)
+                      </NativeSelectOption>
+                      <NativeSelectOption>
+                        Representante legal
+                      </NativeSelectOption>
+                      <NativeSelectOption>Otros</NativeSelectOption>
+                    </NativeSelect>
+                  </FormField>
                   {needsQuality && (
-                    <label className="field field--full">
-                      <span>
-                        Especifica la calidad con la que actúas <b>*</b>
-                      </span>
-                      <input name="quality" required />
-                    </label>
+                    <FormField
+                      id="quality"
+                      label="Especifica la calidad con la que actúas"
+                      required
+                      full
+                    >
+                      <Input id="quality" name="quality" required />
+                    </FormField>
                   )}
                   {needsRepresented && (
                     <>
-                      <label className="field">
-                        <span>
-                          Nombre o razón social del representado <b>*</b>
-                        </span>
-                        <input name="represented-name" required />
-                      </label>
-                      <label className="field">
-                        <span>
-                          DNI / RUC del representado <b>*</b>
-                        </span>
-                        <input name="represented-document" required />
-                      </label>
+                      <FormField
+                        id="represented-name"
+                        label="Nombre o razón social del representado"
+                        required
+                      >
+                        <Input
+                          id="represented-name"
+                          name="represented-name"
+                          required
+                        />
+                      </FormField>
+                      <FormField
+                        id="represented-document"
+                        label="DNI / RUC del representado"
+                        required
+                      >
+                        <Input
+                          id="represented-document"
+                          name="represented-document"
+                          required
+                        />
+                      </FormField>
                     </>
                   )}
-                </div>
+                </FieldGroup>
               </section>
               <section className="complaint-block">
                 <div className="form-section-head">
                   <h2>3. Identificación del servicio contratado</h2>
                 </div>
-                <div className="field-grid">
-                  <label className="field">
-                    <span>Número de caso</span>
-                    <input name="case-number" />
-                  </label>
-                  <label className="field">
-                    <span>Abogado a cargo</span>
-                    <input name="lawyer" />
-                  </label>
-                  <label className="field">
-                    <span>
-                      Servicio contratado <b>*</b>
-                    </span>
-                    <select defaultValue="" name="service" required>
-                      <option disabled value="">
+                <FieldGroup className="field-grid">
+                  <FormField id="case-number" label="Número de caso">
+                    <Input id="case-number" name="case-number" />
+                  </FormField>
+                  <FormField id="lawyer" label="Abogado a cargo">
+                    <Input id="lawyer" name="lawyer" />
+                  </FormField>
+                  <FormField
+                    id="service"
+                    label="Servicio contratado"
+                    required
+                    description="Opciones provisionales, pendientes de confirmación."
+                  >
+                    <NativeSelect
+                      defaultValue=""
+                      id="service"
+                      name="service"
+                      required
+                    >
+                      <NativeSelectOption disabled value="">
                         Selecciona un servicio
-                      </option>
-                      <option>Recuperación de Capital</option>
-                      <option>Recuperación de Licencias</option>
-                      <option>Derecho Corporativo</option>
-                      <option>Otro</option>
-                    </select>
-                    <small>
-                      Opciones provisionales, pendientes de confirmación.
-                    </small>
-                  </label>
-                  <label className="field">
-                    <span>Monto reclamado en S/</span>
-                    <input
+                      </NativeSelectOption>
+                      {[
+                        "Recuperación de Capital",
+                        "Recuperación de Licencias",
+                        "Derecho Corporativo",
+                        "Otro",
+                      ].map((service) => (
+                        <NativeSelectOption key={service}>
+                          {service}
+                        </NativeSelectOption>
+                      ))}
+                    </NativeSelect>
+                  </FormField>
+                  <FormField id="amount" label="Monto reclamado en S/">
+                    <Input
+                      id="amount"
                       inputMode="decimal"
                       min="0"
                       name="amount"
                       step="0.01"
                       type="number"
                     />
-                  </label>
-                </div>
+                  </FormField>
+                </FieldGroup>
               </section>
               <section className="complaint-block">
                 <div className="form-section-head">
@@ -434,40 +492,46 @@ export default function ComplaintsPage() {
                     4. Detalle de la queja o reclamo y pedido del consumidor
                   </h2>
                 </div>
-                <div className="field-grid">
-                  <label className="field field--full">
-                    <span>
-                      Detalle (hechos con fechas concretas) <b>*</b>
-                    </span>
-                    <textarea name="details" required rows={5} />
-                  </label>
-                  <label className="field field--full">
-                    <span>
-                      Pedido del consumidor <b>*</b>
-                    </span>
-                    <textarea name="request" required rows={4} />
-                  </label>
-                  <label className="field field--full">
-                    <span>Documentos de sustento</span>
-                    <input
+                <FieldGroup className="field-grid">
+                  <FormField
+                    id="details"
+                    label="Detalle (hechos con fechas concretas)"
+                    required
+                    full
+                  >
+                    <Textarea id="details" name="details" required rows={5} />
+                  </FormField>
+                  <FormField
+                    id="request"
+                    label="Pedido del consumidor"
+                    required
+                    full
+                  >
+                    <Textarea id="request" name="request" required rows={4} />
+                  </FormField>
+                  <FormField
+                    id="documents"
+                    label="Documentos de sustento"
+                    full
+                    invalid={Boolean(fileError)}
+                  >
+                    <Input
                       accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
+                      aria-invalid={Boolean(fileError)}
+                      id="documents"
                       multiple
                       name="documents"
                       onChange={handleFiles}
                       type="file"
                     />
-                    <small>
+                    <FieldDescription>
                       Hasta 3 archivos PDF, JPG o PNG. Máximo 5 MB cada uno.{" "}
                       {files.length > 0 &&
                         `${files.length} archivo${files.length === 1 ? "" : "s"} seleccionado${files.length === 1 ? "" : "s"}.`}
-                    </small>
-                    {fileError && (
-                      <span className="field-error" role="alert">
-                        {fileError}
-                      </span>
-                    )}
-                  </label>
-                </div>
+                    </FieldDescription>
+                    {fileError && <FieldError>{fileError}</FieldError>}
+                  </FormField>
+                </FieldGroup>
               </section>
               <div className="notice-box">
                 <strong>Plazo de respuesta: máximo 15 días hábiles.</strong>
@@ -476,26 +540,27 @@ export default function ComplaintsPage() {
                   requisito previo para denunciar ante el INDECOPI.
                 </p>
               </div>
-              <div className="consents">
-                <label className="check-row">
-                  <input name="truth" required type="checkbox" />
-                  <span>
+              <FieldSet className="consents">
+                <FieldLegend className="sr-only">
+                  Declaraciones obligatorias
+                </FieldLegend>
+                <Field className="check-row" orientation="horizontal">
+                  <Checkbox id="truth" name="truth" required />
+                  <FieldLabel htmlFor="truth">
                     Declaro que la información proporcionada es verdadera.{" "}
-                    <b>*</b>
-                  </span>
-                </label>
-                <label className="check-row">
-                  <input name="personal-data" required type="checkbox" />
-                  <span>
+                    <b aria-hidden="true">*</b>
+                  </FieldLabel>
+                </Field>
+                <Field className="check-row" orientation="horizontal">
+                  <Checkbox id="personal-data" name="personal-data" required />
+                  <FieldLabel htmlFor="personal-data">
                     Acepto el tratamiento de mis datos personales para gestionar
-                    este registro. <b>*</b>
-                  </span>
-                </label>
-              </div>
+                    este registro. <b aria-hidden="true">*</b>
+                  </FieldLabel>
+                </Field>
+              </FieldSet>
               <div className="form-actions">
-                <button className="button button--primary" type="submit">
-                  Enviar registro
-                </button>
+                <Button type="submit">Enviar registro</Button>
                 <span className="required-hint">* Campos obligatorios</span>
               </div>
               <p className="prototype-disclaimer">
